@@ -48,6 +48,29 @@ export class UsersService {
     return response;
   }
 
+  async findEmail(emailUser: any): Promise<UserInterface> {
+    const { id, name, email, password, phone, status } =
+      await this.userRepository.findOne({
+        select: ['id', 'name', 'email', 'password', 'phone', 'status'],
+        where: { email: emailUser }
+      });
+
+    if (!id) {
+      throw new Error();
+    }
+
+    const response: UserInterface = {
+      id,
+      name,
+      email,
+      phone,
+      password,
+      status
+    };
+
+    return response;
+  }
+
   async update(userId: any, updateUserDto: UpdateUserDto): Promise<void> {
     const userDTO = await this.find(userId);
     const user = this.userRepository.create(userDTO);
