@@ -5,7 +5,9 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  HttpCode,
+  HttpStatus
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -41,16 +43,19 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
 
   @Patch(':id/activate')
+  @HttpCode(HttpStatus.NO_CONTENT)
   activate(@Param('id') id: number) {
     return this.usersService.activate(id);
   }
 
   @Patch(':id/inactivate')
+  @HttpCode(HttpStatus.NO_CONTENT)
   inactivate(@Param('id') id: number) {
     return this.usersService.inactivate(id);
   }

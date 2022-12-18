@@ -1,8 +1,8 @@
 export interface UserInterface {
-  id?: number;
+  id: number;
   name: string;
   email: string;
   phone: string;
   password: string;
-  status?: 'ACTIVATE' | 'INACTIVATE';
+  status: 'ACTIVATE' | 'INACTIVATE';
 }

@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { hashSync } from 'bcrypt';
 
 @Entity()
 export class User {
@@ -19,4 +20,9 @@ export class User {
 
   @Column({ default: 'ACTIVATE' })
   status: 'ACTIVATE' | 'INACTIVATE';
+
+  // @BeforeInsert()
+  // hashPassword() {
+  //   this.password = hashSync(this.password, 10);
+  // }
 }

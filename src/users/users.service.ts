@@ -13,11 +13,13 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    return await this.userRepository.save(createUserDto);
+    const user = this.userRepository.create(createUserDto);
+    return await this.userRepository.save(user);
   }
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find({
+      select: ['id', 'name', 'email', 'phone', 'status'],
       where: { status: 'ACTIVATE' }
     });
   }
@@ -25,6 +27,7 @@ export class UsersService {
   async find(userId: any): Promise<UserInterface> {
     const { id, name, email, password, phone, status } =
       await this.userRepository.findOne({
+        select: ['id', 'name', 'email', 'phone', 'status'],
         where: { id: parseInt(userId, 10) }
       });
 
@@ -45,14 +48,8 @@ export class UsersService {
   }
 
   async update(userId: any, updateUserDto: UpdateUserDto): Promise<void> {
-    const { name, email, phone, password } = updateUserDto;
     const user = await this.find(userId);
-
-    user.name = name ? name : user.name;
-    user.email = email ? email : user.email;
-    user.phone = phone ? phone : user.phone;
-    user.password = password ? password : user.password;
-
+    this.userRepository.merge(user, updateUserDto);
     await this.userRepository.save(user);
   }
 
