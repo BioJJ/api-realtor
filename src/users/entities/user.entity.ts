@@ -21,8 +21,8 @@ export class User {
   @Column({ default: 'ACTIVATE' })
   status: 'ACTIVATE' | 'INACTIVATE';
 
-  // @BeforeInsert()
-  // hashPassword() {
-  //   this.password = hashSync(this.password, 10);
-  // }
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 }

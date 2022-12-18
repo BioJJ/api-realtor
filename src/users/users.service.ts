@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -35,7 +36,7 @@ export class UsersService {
       throw new Error();
     }
 
-    const response: User = {
+    const response: UserInterface = {
       id,
       name,
       email,
@@ -48,7 +49,8 @@ export class UsersService {
   }
 
   async update(userId: any, updateUserDto: UpdateUserDto): Promise<void> {
-    const user = await this.find(userId);
+    const userDTO = await this.find(userId);
+    const user = this.userRepository.create(userDTO);
     this.userRepository.merge(user, updateUserDto);
     await this.userRepository.save(user);
   }
