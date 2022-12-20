@@ -3,11 +3,12 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
-  Double,
+  Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
 
+@Entity()
 export class Property {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,7 +17,7 @@ export class Property {
   description: string;
 
   @Column()
-  value: Double;
+  value: string;
 
   @Column({ default: 'EM ESTOQUE' })
   status: 'VENDIDO' | 'EM ESTOQUE';

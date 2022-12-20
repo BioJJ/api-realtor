@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { Double } from 'typeorm';
 
 export class CreatePropertyDto {
   @ApiProperty()
@@ -9,7 +8,7 @@ export class CreatePropertyDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  value: Double;
+  value: string;
 
   @ApiProperty()
   status: 'VENDIDO' | 'EM ESTOQUE';
