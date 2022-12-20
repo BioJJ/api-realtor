@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
+import { Property } from './entities/property.entity';
 
 @Injectable()
 export class PropertiesService {
-  create(createPropertyDto: CreatePropertyDto) {
-    return 'This action adds a new property';
+  constructor(
+    @InjectRepository(Property) private propertyRepository: Repository<Property>
+  ) {}
+
+  async create(createPropertyDto: CreatePropertyDto): Promise<Property> {
+    const property = this.propertyRepository.create(createPropertyDto);
+    return await this.propertyRepository.save(property);
   }
 
-  findAll() {
-    return `This action returns all properties`;
+  async findAll() {
+    return await this.propertyRepository.find({
+      select: ['id', 'description', 'value', 'status']
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} property`;
+  async findOne(id: any): Promise<Property> {
+    const property = await this.propertyRepository.findOne({
+      select: ['id', 'description', 'value', 'status'],
+      where: { id: parseInt(id, 10) }
+    });
+
+    if (!id) {
+      throw new NotFoundException(`Não achei um imóvel com o id ${id}`);
+    }
+
+    return property;
   }
 
-  update(id: number, updatePropertyDto: UpdatePropertyDto) {
-    return `This action updates a #${id} property`;
+  async update(
+    id: number,
+    updatePropertyDto: UpdatePropertyDto
+  ): Promise<void> {
+    const property = await this.findOne(id);
+    this.propertyRepository.merge(property, updatePropertyDto);
+    await this.propertyRepository.save(property);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} property`;
+  async remove(id: number) {
+    await this.findOne(id);
+
+    if (!id) {
+      throw new NotFoundException(`Não achei um imóvel com o id ${id}`);
+    }
+
+    this.propertyRepository.softDelete({ id });
   }
 }

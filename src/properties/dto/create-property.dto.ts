@@ -13,8 +13,4 @@ export class CreatePropertyDto {
 
   @ApiProperty()
   status: 'VENDIDO' | 'EM ESTOQUE';
-
-  @ApiProperty()
-  @IsNotEmpty()
-  name: string;
 }
