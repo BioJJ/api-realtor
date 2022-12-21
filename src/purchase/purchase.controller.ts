@@ -10,36 +10,46 @@ import {
 import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { HttpCode } from '@nestjs/common/decorators';
+import { HttpStatus } from '@nestjs/common/enums';
+import { Purchase } from './entities/purchase.entity';
 
 @Controller('purchase')
+@ApiTags('Purchase')
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 
   @Post()
-  create(@Body() createPurchaseDto: CreatePurchaseDto) {
-    return this.purchaseService.create(createPurchaseDto);
+  @ApiBody({ type: CreatePurchaseDto })
+  async create(
+    @Body() createPurchaseDto: CreatePurchaseDto
+  ): Promise<Purchase> {
+    return await this.purchaseService.create(createPurchaseDto);
   }
 
   @Get()
-  findAll() {
-    return this.purchaseService.findAll();
+  async findAll(): Promise<Purchase[]> {
+    return await this.purchaseService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.purchaseService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<Purchase> {
+    return await this.purchaseService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  @ApiBody({ type: UpdatePurchaseDto })
+  async update(
     @Param('id') id: string,
     @Body() updatePurchaseDto: UpdatePurchaseDto
-  ) {
-    return this.purchaseService.update(+id, updatePurchaseDto);
+  ): Promise<void> {
+    return await this.purchaseService.update(+id, updatePurchaseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchaseService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async remove(@Param('id') id: string): Promise<void> {
+    return await this.purchaseService.remove(+id);
   }
 }

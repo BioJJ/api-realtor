@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
+import { Property } from 'src/properties/entities/property.entity';
+import { User } from 'src/users/entities/user.entity';
 
 export class CreatePurchaseDto {
   @ApiProperty()
@@ -11,14 +13,13 @@ export class CreatePurchaseDto {
   profitPercentage: string;
 
   @ApiProperty()
-  @IsNotEmpty()
   status: 'FECHADA' | 'EM PROCESSO';
 
   @ApiProperty()
   @IsNotEmpty()
-  user: string;
+  user: User;
 
   @ApiProperty()
   @IsNotEmpty()
-  property: string;
+  property: Property;
 }

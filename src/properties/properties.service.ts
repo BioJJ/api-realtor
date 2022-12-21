@@ -16,7 +16,7 @@ export class PropertiesService {
     return await this.propertyRepository.save(property);
   }
 
-  async findAll() {
+  async findAll(): Promise<Property[]> {
     return await this.propertyRepository.find({
       select: ['id', 'description', 'value', 'status']
     });
