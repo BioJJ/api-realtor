@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PropertiesModule } from './properties/properties.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { PropertiesModule } from './properties/properties.module';
       synchronize: true
     }),
     AuthModule,
-    PropertiesModule
+    PropertiesModule,
+    PurchaseModule
   ],
   controllers: [AppController],
   providers: [
