@@ -22,6 +22,9 @@ export class User {
   @Column()
   phone: string;
 
+  @Column({ default: 'ADM' })
+  profile: 'ADM' | 'USER';
+
   @Column()
   password: string;
 
