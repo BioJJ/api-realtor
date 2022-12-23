@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Purchase } from 'src/purchase/entities/purchase.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -21,6 +23,9 @@ export class Property {
 
   @Column({ default: 'EM ESTOQUE' })
   status: 'VENDIDO' | 'EM ESTOQUE';
+
+  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  purchase: Purchase[];
 
   @CreateDateColumn({ name: 'created_at' })
   @ApiProperty()

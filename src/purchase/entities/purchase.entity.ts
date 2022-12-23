@@ -6,8 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from 'typeorm';
@@ -27,12 +26,10 @@ export class Purchase {
   @Column({ default: 'EM PROCESSO' })
   status: 'FECHADA' | 'EM PROCESSO';
 
-  @OneToOne(() => User)
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.purchase)
   user: User;
 
-  @OneToOne(() => Property)
-  @JoinColumn()
+  @ManyToOne(() => Property, (property) => property.purchase)
   property: Property;
 
   @CreateDateColumn({ name: 'created_at' })

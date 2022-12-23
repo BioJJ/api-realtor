@@ -26,7 +26,18 @@ export class PurchaseService {
 
   async findAll(): Promise<Purchase[]> {
     return await this.purchaseRepository.find({
-      select: ['id', 'saleValue', 'profitPercentage', 'status']
+      select: [
+        'id',
+        'saleValue',
+        'profitPercentage',
+        'user',
+        'property',
+        'status'
+      ],
+      relations: {
+        user: true,
+        property: true
+      }
     });
   }
 
@@ -40,7 +51,11 @@ export class PurchaseService {
         'user',
         'property'
       ],
-      where: { id: parseInt(id, 10) }
+      where: { id: parseInt(id, 10) },
+      relations: {
+        user: true,
+        property: true
+      }
     });
 
     if (!id) {
