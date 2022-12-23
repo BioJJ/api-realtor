@@ -4,5 +4,6 @@ export interface UserInterface {
   email: string;
   phone: string;
   password: string;
+  profile: 'ADM' | 'USER';
   status: 'ACTIVATE' | 'INACTIVATE';
 }

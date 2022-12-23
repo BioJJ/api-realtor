@@ -23,4 +23,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   status: 'ACTIVATE' | 'INACTIVATE';
+
+  @ApiProperty()
+  profile: 'ADM' | 'USER';
 }

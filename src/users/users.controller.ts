@@ -12,14 +12,17 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiBody } from '@nestjs/swagger/dist';
+import { ApiBody, ApiTags } from '@nestjs/swagger/dist';
 import { User } from './entities/user.entity';
 import { UserInterface } from './entities/user.interface';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('users')
+@ApiTags('Users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @IsPublic()
   @Post()
   @ApiBody({ type: CreateUserDto })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {

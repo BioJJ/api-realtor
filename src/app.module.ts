@@ -6,6 +6,8 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { PropertiesModule } from './properties/properties.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
   imports: [
@@ -16,7 +18,9 @@ import { AppService } from './app.service';
       entities: [__dirname + '/**/*.entity.{js,ts}'],
       synchronize: true
     }),
-    AuthModule
+    AuthModule,
+    PropertiesModule,
+    PurchaseModule
   ],
   controllers: [AppController],
   providers: [
