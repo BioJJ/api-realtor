@@ -1,5 +1,12 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { hashSync } from 'bcrypt';
+import { Purchase } from 'src/purchase/entities/purchase.entity';
 
 @Entity()
 export class User {
@@ -15,11 +22,17 @@ export class User {
   @Column()
   phone: string;
 
+  @Column({ default: 'ADM' })
+  profile: 'ADM' | 'USER';
+
   @Column()
   password: string;
 
   @Column({ default: 'ACTIVATE' })
   status: 'ACTIVATE' | 'INACTIVATE';
+
+  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  purchase: Purchase[];
 
   @BeforeInsert()
   hashPassword() {

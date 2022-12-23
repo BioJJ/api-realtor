@@ -19,15 +19,15 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find({
-      select: ['id', 'name', 'email', 'phone', 'status'],
+      select: ['id', 'name', 'email', 'phone', 'profile', 'status'],
       where: { status: 'ACTIVATE' }
     });
   }
 
   async find(userId: any): Promise<UserInterface> {
-    const { id, name, email, password, phone, status } =
+    const { id, name, email, password, phone, profile, status } =
       await this.userRepository.findOne({
-        select: ['id', 'name', 'email', 'phone', 'status'],
+        select: ['id', 'name', 'email', 'phone', 'profile', 'status'],
         where: { id: parseInt(userId, 10) }
       });
 
@@ -40,6 +40,7 @@ export class UsersService {
       name,
       email,
       phone,
+      profile,
       password,
       status
     };
@@ -48,9 +49,17 @@ export class UsersService {
   }
 
   async findEmail(emailUser: any): Promise<UserInterface> {
-    const { id, name, email, password, phone, status } =
+    const { id, name, email, password, phone, profile, status } =
       await this.userRepository.findOne({
-        select: ['id', 'name', 'email', 'password', 'phone', 'status'],
+        select: [
+          'id',
+          'name',
+          'email',
+          'password',
+          'phone',
+          'profile',
+          'status'
+        ],
         where: { email: emailUser }
       });
 
@@ -64,6 +73,7 @@ export class UsersService {
       email,
       phone,
       password,
+      profile,
       status
     };
 
