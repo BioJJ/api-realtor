@@ -22,6 +22,10 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## Steps to run the application via Docker-compose
+
+[BioJJ/realtor-application](https://github.com/BioJJ/realtor-application) final application repository
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
