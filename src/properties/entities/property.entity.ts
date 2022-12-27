@@ -22,7 +22,7 @@ export class Property {
   value: string;
 
   @Column({ default: 'EM ESTOQUE' })
-  status: 'VENDIDO' | 'EM ESTOQUE';
+  status: 'VENDIDO' | 'EM ESTOQUE' | 'EM PROCESSO DE VENDA';
 
   @OneToMany(() => Purchase, (purchase) => purchase.user)
   purchase: Purchase[];

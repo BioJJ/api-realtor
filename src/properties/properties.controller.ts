@@ -33,6 +33,11 @@ export class PropertiesController {
     return await this.propertiesService.findAll();
   }
 
+  @Get('in-stock')
+  async findAllStatus(): Promise<Property[]> {
+    return await this.propertiesService.findAllStatus();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Property> {
     return await this.propertiesService.findOne(+id);

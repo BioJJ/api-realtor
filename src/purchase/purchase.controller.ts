@@ -33,6 +33,11 @@ export class PurchaseController {
     return await this.purchaseService.findAll();
   }
 
+  @Get('in-process')
+  async findAllStatus(): Promise<Purchase[]> {
+    return await this.purchaseService.findAllStatus();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Purchase> {
     return await this.purchaseService.findOne(+id);
@@ -45,6 +50,15 @@ export class PurchaseController {
     @Body() updatePurchaseDto: UpdatePurchaseDto
   ): Promise<void> {
     return await this.purchaseService.update(+id, updatePurchaseDto);
+  }
+
+  @Patch(':id/change-status/:status')
+  changeStatus(
+    @Param('id') id: number,
+    @Param('status') status: string,
+    @Body() updatePurchaseDto: UpdatePurchaseDto
+  ): Promise<void> {
+    return this.purchaseService.changeStatus(id, updatePurchaseDto, status);
   }
 
   @Delete(':id')

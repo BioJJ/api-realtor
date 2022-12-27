@@ -6,6 +6,7 @@ import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
 import { UsersService } from 'src/users/users.service';
+import { Property } from 'src/properties/entities/property.entity';
 
 @Injectable()
 export class PurchaseService {
@@ -17,10 +18,15 @@ export class PurchaseService {
   ) {}
 
   async create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
-    this.findUserById(createPurchaseDto.user.id);
-    this.findPropertyById(createPurchaseDto.property.id);
+    await this.findUserById(createPurchaseDto.user.id);
+    await this.findPropertyById(createPurchaseDto.property.id);
 
     const purchase = this.purchaseRepository.create(createPurchaseDto);
+
+    this.propertiesService.changeStatus(
+      createPurchaseDto.property.id,
+      'EM PROCESSO DE VENDA'
+    );
     return await this.purchaseRepository.save(purchase);
   }
 
@@ -34,6 +40,24 @@ export class PurchaseService {
         'property',
         'status'
       ],
+      relations: {
+        user: true,
+        property: true
+      }
+    });
+  }
+
+  async findAllStatus(): Promise<Purchase[]> {
+    return await this.purchaseRepository.find({
+      select: [
+        'id',
+        'saleValue',
+        'profitPercentage',
+        'user',
+        'property',
+        'status'
+      ],
+      where: { status: 'EM PROCESSO' },
       relations: {
         user: true,
         property: true
@@ -72,6 +96,27 @@ export class PurchaseService {
     const purchase = await this.findOne(id);
     this.purchaseRepository.merge(purchase, updatePurchaseDto);
     await this.purchaseRepository.save(purchase);
+  }
+
+  async changeStatus(
+    id: number,
+    updatePurchaseDto: UpdatePurchaseDto,
+    status: any
+  ): Promise<void> {
+    await this.purchaseRepository.update(id, { status: status });
+
+    if (status === 'FECHADA') {
+      this.propertiesService.changeStatus(
+        updatePurchaseDto.property.id,
+        'VENDIDO'
+      );
+    }
+    if (status === 'CANCELADA') {
+      this.propertiesService.changeStatus(
+        updatePurchaseDto.property.id,
+        'EM ESTOQUE'
+      );
+    }
   }
 
   async remove(id: number): Promise<void> {

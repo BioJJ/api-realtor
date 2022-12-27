@@ -13,7 +13,7 @@ export class CreatePurchaseDto {
   profitPercentage: string;
 
   @ApiProperty()
-  status: 'FECHADA' | 'EM PROCESSO';
+  status: 'FECHADA' | 'EM PROCESSO' | 'CANCELADA';
 
   @ApiProperty()
   @IsNotEmpty()

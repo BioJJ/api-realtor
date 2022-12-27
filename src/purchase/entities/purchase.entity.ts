@@ -24,7 +24,7 @@ export class Purchase {
   profitPercentage: string;
 
   @Column({ default: 'EM PROCESSO' })
-  status: 'FECHADA' | 'EM PROCESSO';
+  status: 'FECHADA' | 'EM PROCESSO' | 'CANCELADA';
 
   @ManyToOne(() => User, (user) => user.purchase)
   user: User;
