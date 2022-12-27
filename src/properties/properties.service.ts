@@ -22,6 +22,13 @@ export class PropertiesService {
     });
   }
 
+  async findAllStatus(): Promise<Property[]> {
+    return await this.propertyRepository.find({
+      select: ['id', 'description', 'value', 'status'],
+      where: { status: 'EM ESTOQUE' }
+    });
+  }
+
   async findOne(id: any): Promise<Property> {
     const property = await this.propertyRepository.findOne({
       select: ['id', 'description', 'value', 'status'],
@@ -42,6 +49,10 @@ export class PropertiesService {
     const property = await this.findOne(id);
     this.propertyRepository.merge(property, updatePropertyDto);
     await this.propertyRepository.save(property);
+  }
+
+  async changeStatus(id: number, status: any): Promise<void> {
+    await this.propertyRepository.update(id, { status: status });
   }
 
   async remove(id: number) {
