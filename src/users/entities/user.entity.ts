@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { hashSync } from 'bcrypt';
 import { Purchase } from 'src/purchase/entities/purchase.entity';
+import { Property } from 'src/properties/entities/property.entity';
 
 @Entity()
 export class User {
@@ -33,6 +34,9 @@ export class User {
 
   @OneToMany(() => Purchase, (purchase) => purchase.user)
   purchase: Purchase[];
+
+  @OneToMany(() => Property, (property) => property.user)
+  property: Property[];
 
   @BeforeInsert()
   hashPassword() {
