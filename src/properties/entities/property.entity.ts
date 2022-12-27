@@ -1,10 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Purchase } from 'src/purchase/entities/purchase.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn
@@ -23,6 +25,9 @@ export class Property {
 
   @Column({ default: 'EM ESTOQUE' })
   status: 'VENDIDO' | 'EM ESTOQUE' | 'EM PROCESSO DE VENDA';
+
+  @ManyToOne(() => User, (user) => user.property)
+  user: User;
 
   @OneToMany(() => Purchase, (purchase) => purchase.user)
   purchase: Purchase[];

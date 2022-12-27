@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,28 +25,17 @@ export class UsersService {
     });
   }
 
-  async find(userId: any): Promise<UserInterface> {
-    const { id, name, email, password, phone, profile, status } =
-      await this.userRepository.findOne({
-        select: ['id', 'name', 'email', 'phone', 'profile', 'status'],
-        where: { id: parseInt(userId, 10) }
-      });
+  async find(id: any): Promise<User> {
+    const user = await this.userRepository.findOne({
+      select: ['id', 'name', 'email', 'phone', 'profile', 'status'],
+      where: { id: parseInt(id, 10) }
+    });
 
     if (!id) {
-      throw new Error();
+      throw new NotFoundException(`Não achei um usuario com o id ${id}`);
     }
 
-    const response: UserInterface = {
-      id,
-      name,
-      email,
-      phone,
-      profile,
-      password,
-      status
-    };
-
-    return response;
+    return user;
   }
 
   async findEmail(emailUser: any): Promise<UserInterface> {
