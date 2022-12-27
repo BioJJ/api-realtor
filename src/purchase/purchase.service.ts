@@ -6,7 +6,6 @@ import { CreatePurchaseDto } from './dto/create-purchase.dto';
 import { UpdatePurchaseDto } from './dto/update-purchase.dto';
 import { Purchase } from './entities/purchase.entity';
 import { UsersService } from 'src/users/users.service';
-import { Property } from 'src/properties/entities/property.entity';
 
 @Injectable()
 export class PurchaseService {
