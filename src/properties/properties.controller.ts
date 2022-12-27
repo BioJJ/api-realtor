@@ -38,6 +38,16 @@ export class PropertiesController {
     return await this.propertiesService.findAllStatus();
   }
 
+  @Get(':id/in-stock')
+  async findAllStatusNotUser(@Param('id') id: string): Promise<Property[]> {
+    return await this.propertiesService.findAllStatusNotUser(+id);
+  }
+
+  @Get(':id/user')
+  async findAllByUser(@Param('id') id: string): Promise<Property[]> {
+    return await this.propertiesService.findAllByUser(+id);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Property> {
     return await this.propertiesService.findOne(+id);
